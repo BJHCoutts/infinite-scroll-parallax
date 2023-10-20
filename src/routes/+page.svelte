@@ -1,10 +1,59 @@
-<script>
-	import PuzzlePieces from "../lib/assets/PuzzlePieces.svelte";
+<script lang='ts'>
+	import { onMount } from "svelte";
+
+	onMount(()=>{
+		const scrollContainer = document.querySelector('.scroll-container')
+		const header = document.querySelector('h1')
+
+		function createEl() {
+
+		}
+
+		const observer:IntersectionObserver = new IntersectionObserver( (entries:IntersectionObserverEntry[]) => {
+			
+			if (entries[0].isIntersecting) {
+
+				if (!scrollContainer) {console.error('scroll container is missing')}
+				
+				const newEl = document.createElement('h1')
+				newEl.innerText = "Scroll Down!"
+				
+			}
+		})
+
+		if (header) {
+			observer.observe(header)
+
+		}
+
+	})
+
+
 
 </script>
 
 <main class="scroll-container">
 	
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
+	<h1>Scroll Down!</h1>
 	<h1>Scroll Down!</h1>
 
 	<!-- <PuzzlePieces /> -->
@@ -33,7 +82,8 @@
 		align-items: center;
 		height: 100%;
 		transform-style: preserve-3d;
-		z-index: -1
+		z-index: -1;
+		/* display: none; */
 	}
 
 </style>
