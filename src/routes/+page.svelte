@@ -3,27 +3,29 @@
 
 	onMount(()=>{
 		const scrollContainer = document.querySelector('.scroll-container')
-		const header = document.querySelector('h1')
-
-		function createEl() {
-
-		}
+		const headers = document.querySelectorAll('h1')
 
 		const observer:IntersectionObserver = new IntersectionObserver( (entries:IntersectionObserverEntry[]) => {
-			
-			if (entries[0].isIntersecting) {
+			if (!scrollContainer) {console.error('scroll container is missing')}
 
-				if (!scrollContainer) {console.error('scroll container is missing')}
-				
-				const newEl = document.createElement('h1')
-				newEl.innerText = "Scroll Down!"
-				
-			}
+			entries.forEach( (entry) => {
+
+				if (entry.isIntersecting) {
+	
+					const newEl = document.createElement('h1')
+					newEl.innerText = "Created Scroll Down!"
+					scrollContainer?.appendChild(newEl)
+
+					observer.observe(newEl)
+					
+				}
+			})
 		})
 
-		if (header) {
-			observer.observe(header)
-
+		if (headers) {
+			observer.observe(headers[0])
+		} else {
+			console.error('No Header Element!')
 		}
 
 	})
@@ -37,25 +39,6 @@
 	<h1>Scroll Down!</h1>
 	<h1>Scroll Down!</h1>
 	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-	<h1>Scroll Down!</h1>
-
 	<!-- <PuzzlePieces /> -->
 
 </main>
