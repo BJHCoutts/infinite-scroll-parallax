@@ -1,4 +1,5 @@
 <script lang='ts'>
+
 	import { onMount } from "svelte";
 
 	let i = 1
@@ -10,7 +11,7 @@
 
 	onMount(()=>{
 		const scrollContainer = document.querySelector('.scroll-container')
-		const observed = document.querySelectorAll('img')
+		const observed = document.querySelectorAll('h1')
 
 		const observer:IntersectionObserver = new IntersectionObserver( (entries:IntersectionObserverEntry[]) => {
 			console.log('observed')
@@ -23,12 +24,22 @@
 					observer.unobserve(entry.target)
 					console.log('isIntersecting')
 					const newHeader = document.createElement('h1')
-					newHeader.innerText = "Created Scroll Down!"
-					newHeader.className = 'created-element'
+					newHeader.innerText = "Scroll Down for MOAR CATS!"
+					newHeader.style.textAlign = 'center'
 
 					const newImageContainer = document.createElement('div')
 					newImageContainer.className = 'image-container'
 					newImageContainer.style.backgroundColor = 'Gray'
+					const randomZValue = (Math.floor(Math.random() * 10) + 1) * -1
+					const randomMarginIndex = Math.floor(Math.random() * 3)
+					const marginOptions = [
+						'0 auto 0 0',
+						'0 0 0 auto',
+						'0 auto',
+					]
+					newImageContainer.style.translate = `0 0 ${randomZValue}px`
+					newImageContainer.style.display = `inline-block`
+					newImageContainer.style.margin = `${marginOptions[randomMarginIndex]}`
 
 					const newImage = document.createElement('img')
 					i = i+1
@@ -52,42 +63,27 @@
 		})
 
 		if (observed) {
-			console.log(observed[0])
 			observer.observe(observed[0])
 		} else {
 			console.error('observe() error, no observed')
 		}
-
-
-
 	})
-
-
 
 </script>
 
 <main class="scroll-container">
 	
-	<h1 class='created-element'>Scroll Down!</h1>
-
-	<div class="grid">
-		<div class="grid-cell left">
-			<div class="image-container">
-				<img class='created-image' src={`https://loremflickr.com/320/240?random=1`} alt='kitten' on:load={e => handleLoad(e)}/>
-			</div>
-		</div>
-		<div class="grid-cell right"></div>
-	</div>
+	<h1 class='initial-header'>Scroll Down!</h1>
 
 </main>
 
 <style>
 
+	* {
+		font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	}
+
 	.scroll-container {
-		/* height: 100vh;
-		height: 100dvh;
-		height: 100svh;
-		height: 100lvh; */
 		position: fixed;
 		inset: 0;
 		overflow: hidden scroll;
@@ -95,31 +91,11 @@
 		background-image: url("$lib/assets/puzzlePieces.webp");
 		background-position: 50% 75%;
 		background-attachment: scroll;
+		display: flex;
+		flex-direction: column;
 	}
 
-	.grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: 1fr;
-		gap: 1em;
-		margin: 0 2em;
-		place-items: center;
-	}
-
-	.grid-cell {
-		position: relative;
-	}
-
-	.image-container {
-		background-color: grey;
-	}
-
-	.created-image {
-		opacity: 0;
-		transition: opacity 1s ease-in;
-	}
-
-	.created-element {
+	.initial-header {
 		position: relative;
 		display: flex;
 		justify-content: center;
@@ -127,8 +103,8 @@
 		height: 100%;
 		transform-style: preserve-3d;
 		z-index: -1;
-		margin-top: 20vh;
-		/* display: none; */
+		margin-top: 50vh;
+		margin-bottom: 60vh;
 	}
 
 </style>
