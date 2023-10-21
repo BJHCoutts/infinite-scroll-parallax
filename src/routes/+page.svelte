@@ -19,20 +19,29 @@
 			entries.forEach( (entry) => {
 
 				if (entry.isIntersecting) {
-	
+				
+					observer.unobserve(entry.target)
 					console.log('isIntersecting')
 					const newHeader = document.createElement('h1')
 					newHeader.innerText = "Created Scroll Down!"
 					newHeader.className = 'created-element'
 
+					const newImageContainer = document.createElement('div')
+					newImageContainer.className = 'image-container'
+					newImageContainer.style.backgroundColor = 'Gray'
+
 					const newImage = document.createElement('img')
 					i = i+1
-					newImage.src = `https://loremflickr.com/500/300?random=${i}`
+					newImage.className = 'created-image'
+					newImage.style.transition = 'opacity 1s ease-in'
+					newImage.style.opacity = '0'
 					newImage.loading = 'lazy'
-
+					newImage.src = `https://loremflickr.com/500/300?random=${i}`
+					newImage.addEventListener( 'load', e => handleLoad(e))
+					
+					newImageContainer.appendChild(newImage)
 					scrollContainer?.appendChild(newHeader)
-					scrollContainer?.appendChild(newImage)
-
+					scrollContainer?.appendChild(newImageContainer)
 
 					observer.observe(newImage)
 					
@@ -46,7 +55,7 @@
 			console.log(observed[0])
 			observer.observe(observed[0])
 		} else {
-			console.error('No Header Element!')
+			console.error('observe() error, no observed')
 		}
 
 
@@ -64,7 +73,7 @@
 	<div class="grid">
 		<div class="grid-cell left">
 			<div class="image-container">
-				<img class='created-image' src={`https://loremflickr.com/320/240?random=1`} alt='kitten' on:load={(e) => handleLoad(e)}/>
+				<img class='created-image' src={`https://loremflickr.com/320/240?random=1`} alt='kitten' on:load={e => handleLoad(e)}/>
 			</div>
 		</div>
 		<div class="grid-cell right"></div>
@@ -107,7 +116,7 @@
 
 	.created-image {
 		opacity: 0;
-		transition: opacity .3s ease-in;
+		transition: opacity 1s ease-in;
 	}
 
 	.created-element {
