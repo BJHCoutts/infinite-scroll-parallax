@@ -4,28 +4,30 @@
 	let i = 1
 
 	function handleLoad({currentTarget}: {currentTarget: HTMLElement}) {
+		console.log('handleLoad')
 		currentTarget.style.opacity = '100'
-		currentTarget.style.border = '2px solid red'
 	}
 
 	onMount(()=>{
 		const scrollContainer = document.querySelector('.scroll-container')
-		const headers = document.querySelectorAll('h1')
+		const observed = document.querySelectorAll('img')
 
 		const observer:IntersectionObserver = new IntersectionObserver( (entries:IntersectionObserverEntry[]) => {
-			if (!scrollContainer) {console.error('scroll container is missing')}
+			console.log('observed')
+			if (!scrollContainer) console.error('scroll container is missing')
 
 			entries.forEach( (entry) => {
 
 				if (entry.isIntersecting) {
 	
+					console.log('isIntersecting')
 					const newHeader = document.createElement('h1')
 					newHeader.innerText = "Created Scroll Down!"
 					newHeader.className = 'created-element'
 
 					const newImage = document.createElement('img')
 					i = i+1
-					newImage.src = `<img src="https://loremflickr.com/500/300?random=${i}" />`
+					newImage.src = `https://loremflickr.com/500/300?random=${i}`
 					newImage.loading = 'lazy'
 
 					scrollContainer?.appendChild(newHeader)
@@ -40,11 +42,14 @@
 			threshold: 1
 		})
 
-		if (headers) {
-			observer.observe(headers[0])
+		if (observed) {
+			console.log(observed[0])
+			observer.observe(observed[0])
 		} else {
 			console.error('No Header Element!')
 		}
+
+
 
 	})
 
@@ -57,9 +62,12 @@
 	<h1 class='created-element'>Scroll Down!</h1>
 
 	<div class="grid">
-		<div class="image-container">
-			<img class='created-image' src={`https://loremflickr.com/320/240?random=1`} alt='kitten' on:load={handleLoad}/>
+		<div class="grid-cell left">
+			<div class="image-container">
+				<img class='created-image' src={`https://loremflickr.com/320/240?random=1`} alt='kitten' on:load={(e) => handleLoad(e)}/>
+			</div>
 		</div>
+		<div class="grid-cell right"></div>
 	</div>
 
 </main>
@@ -87,6 +95,10 @@
 		gap: 1em;
 		margin: 0 2em;
 		place-items: center;
+	}
+
+	.grid-cell {
+		position: relative;
 	}
 
 	.image-container {
